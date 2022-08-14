@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weather.R
 import com.example.weather.data.model.City
 import com.example.weather.databinding.ItemCityBinding
 import kotlinx.android.synthetic.main.item_city.view.*

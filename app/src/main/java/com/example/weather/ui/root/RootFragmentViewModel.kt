@@ -24,7 +24,6 @@ class RootFragmentViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch {
             val temp = repo.getOneDayWeather(cityName.cityName, cityName.units)
             _apiData.value = temp.body()
-            //val fiveTemp = repo.getFiveDaysWeather(cityName.cityName, "UAH", cityName.units)
             Log.d("MyLog", "Temperature: ${_apiData.value?.main?.temp ?: "nullable"}")
         }
     }

@@ -46,7 +46,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             val city: City? = data.getParcelable(CityChooseFragment.CITY_DATA)
             Log.d("MyLog", "City1: {${city}}")
             if (city != null) {
-                dataForWeather = BasicApiLoginData(city.city, "metric", city.iso3)
+                dataForWeather = BasicApiLoginData(city.city, "metric", city.cityKey)
                 refreshData(BasicApiLoginData(dataForWeather.cityName, dataForWeather.units, dataForWeather.iso3))
             }
         }

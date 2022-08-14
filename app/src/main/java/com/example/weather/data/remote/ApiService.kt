@@ -1,6 +1,5 @@
 package com.example.weather.data.remote
 
-import com.example.weather.data.local.citiesListResponse.CitiesListGlobal
 import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
 import com.example.weather.data.model.citiesListAutocompleteResponse.CitiesListAutocomplete
 import retrofit2.Response
@@ -10,12 +9,8 @@ import retrofit2.http.Query
 
 public interface ApiService {
 
-    //Call to get all the cities and countries they belong
-    //https://countriesnow.space/api/v0.1/countries
-    @GET("countries")
-    suspend fun getCitiesList(): Response<CitiesListGlobal>
 
-
+    //Call to get updatable list of the cities by text entered in the edit text field on CityChooseFragment
     //http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=xY7J0GGAQmyDlbYz9aTAncGFZj1fxGOD&q=K"
     @GET("locations/v1/cities/autocomplete")
     suspend fun getCitiesListAutocomplete(

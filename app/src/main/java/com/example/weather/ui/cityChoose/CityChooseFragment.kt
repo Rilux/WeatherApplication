@@ -51,12 +51,9 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
         cityChooseFragmentViewModel.apiData.observe(viewLifecycleOwner, Observer {
             val listCity = mutableListOf<City>()
-            it.forEach { firstStep ->
-                firstStep.cities.forEach {
-                    listCity.add(City(it, firstStep.country, firstStep.iso3))
-                }
+            it.forEach {
+                listCity.add(City(it.localizedName, it.country.localizedName, it.key))
             }
-
             adapter.setList(listCity)
         })
 
@@ -82,8 +79,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
     }
 
     fun cityTextChanged(s: CharSequence) {
-        cityChooseFragmentViewModel.cityTextChanged(
-            s.toString().replaceFirstChar { it.uppercase() })
+        cityChooseFragmentViewModel.cityTextChanged(s)
     }
 
     companion object {
