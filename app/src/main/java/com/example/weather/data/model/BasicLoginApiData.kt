@@ -2,8 +2,8 @@ package com.example.weather.data
 
 data class BasicApiLoginData(
     var cityName: String = "Kharkiv",
-    var units: String = "metric",
-    var iso3: String = "UAH"
+    var units: Boolean = true,
+    var cityApiKey: String = "323903"
 ) {
     companion object {
         @JvmStatic

@@ -18,14 +18,18 @@ import com.example.weather.data.model.City
 import com.example.weather.databinding.FragmentCityChooseBinding
 import kotlinx.coroutines.launch
 
-private lateinit var binding: FragmentCityChooseBinding
-private lateinit var cityChooseFragmentViewModel: CityChooseFragmentViewModel
 
-private lateinit var adapter: CityChooseAdapter
-lateinit var recyclerview: RecyclerView
+
 
 class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
+    private lateinit var binding: FragmentCityChooseBinding
+    private lateinit var cityChooseFragmentViewModel: CityChooseFragmentViewModel
+
+    private lateinit var adapter: CityChooseAdapter
+    private lateinit var recyclerview: RecyclerView
+
+    val layoutManager = LinearLayoutManager(context)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +40,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
         recyclerview = binding.recyclerview1
 
-        val layoutManager = LinearLayoutManager(context)
+
         recyclerview.layoutManager = layoutManager
 
         adapter = CityChooseAdapter(object : CityChooseListener {

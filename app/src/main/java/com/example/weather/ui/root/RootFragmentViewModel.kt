@@ -9,22 +9,22 @@ import androidx.lifecycle.viewModelScope
 import com.example.weather.data.BasicApiLoginData
 import com.example.weather.data.repository.Repository
 import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
+import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import kotlinx.coroutines.launch
 
 class RootFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repo = Repository()
 
-    private var _apiData = MutableLiveData<OneDayWeatherDataResponse>()
-    val apiData: MutableLiveData<OneDayWeatherDataResponse> = _apiData
+    private var _apiData = MutableLiveData<TwelveHoursDataResponse>()
+    val apiData: MutableLiveData<TwelveHoursDataResponse> = _apiData
 
     var cityName: BasicApiLoginData = BasicApiLoginData()
 
     private fun callToApi() {
         viewModelScope.launch {
-            val temp = repo.getOneDayWeather(cityName.cityName, cityName.units)
+            val temp = repo.getTwelveHoursWeatherData(cityName.cityApiKey)
             _apiData.value = temp.body()
-            Log.d("MyLog", "Temperature: ${_apiData.value?.main?.temp ?: "nullable"}")
         }
     }
 
@@ -33,7 +33,7 @@ class RootFragmentViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun cityChanged(cityTemp: String) {
-        cityName.cityName = cityTemp
+        cityName.cityApiKey = cityTemp
         callToApi()
     }
 }
