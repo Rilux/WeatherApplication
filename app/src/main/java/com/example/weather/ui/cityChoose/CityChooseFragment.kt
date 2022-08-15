@@ -75,7 +75,9 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
                 before: Int, count: Int
             ) {
                 lifecycleScope.launch() {
-                    cityTextChanged(s)
+                    if (s.isNotEmpty()){
+                        cityTextChanged(s)
+                    }
                 }
 
             }

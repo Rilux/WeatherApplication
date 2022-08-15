@@ -27,7 +27,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     private lateinit var adapter: RootFragmentAdapter
     private lateinit var recyclerview: RecyclerView
-    val layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +39,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             toScreen(it)
             adapter.setList(it)
         })
+
 
         binding.floatingRefreshButton.setOnClickListener {
             refreshData(dataForWeather)
@@ -93,6 +93,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         recyclerview = binding.recyclerviewFiveDayWeather
         adapter = RootFragmentAdapter()
         recyclerview.adapter = adapter
-        recyclerview.layoutManager = layoutManager
+        recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 }
