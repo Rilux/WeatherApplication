@@ -2,6 +2,8 @@ package com.example.weather.ui.root
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponseItem
@@ -11,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RootFragmentAdapter() :
-    RecyclerView.Adapter<RootFragmentAdapter.RootFragmentViewHolder>() {
+    ListAdapter<TwelveHoursDataResponseItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
 
     var listWeather = emptyList<TwelveHoursDataResponseItem>()
 
@@ -43,5 +45,22 @@ class RootFragmentAdapter() :
     fun setList(list: TwelveHoursDataResponse) {
         listWeather = list
         notifyDataSetChanged()
+    }
+
+    class Comparator : DiffUtil.ItemCallback<TwelveHoursDataResponseItem>() {
+        override fun areItemsTheSame(
+            oldItem: TwelveHoursDataResponseItem,
+            newItem: TwelveHoursDataResponseItem
+        ): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(
+            oldItem: TwelveHoursDataResponseItem,
+            newItem: TwelveHoursDataResponseItem
+        ): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }
