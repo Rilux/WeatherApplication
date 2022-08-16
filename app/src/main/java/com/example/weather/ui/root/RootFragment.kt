@@ -1,9 +1,13 @@
 package com.example.weather.ui.root
 
+import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,6 +20,7 @@ import com.example.weather.data.model.City
 import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import com.example.weather.databinding.FragmentRootBinding
 import com.example.weather.ui.cityChoose.CityChooseFragment
+import com.example.weather.ui.isPermissionGranted
 
 
 class RootFragment : Fragment(R.layout.fragment_root) {
@@ -28,11 +33,14 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     private lateinit var adapter: RootFragmentAdapter
     private lateinit var recyclerview: RecyclerView
 
+    private lateinit var pLauncher: ActivityResultLauncher<String>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRootBinding.bind(view)
 
         drawRecyclerView()
+        checkPermission()
 
         rootViewModel = ViewModelProvider(this)[RootFragmentViewModel::class.java]
         rootViewModel.apiData.observe(viewLifecycleOwner, Observer {
@@ -69,13 +77,13 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     }
 
-    fun refreshData(data: BasicApiLoginData) {
+    private fun refreshData(data: BasicApiLoginData) {
         rootViewModel.cityChanged(data.cityApiKey)
         binding.currentCityName.text = data.cityName
 
     }
 
-    fun toScreen(data: TwelveHoursDataResponse) {
+    private fun toScreen(data: TwelveHoursDataResponse) {
         binding.temperatureProgressBarMainFragment.visibility = View.VISIBLE
         binding.temperatureXML.visibility = View.GONE
 
@@ -85,14 +93,29 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         binding.temperatureProgressBarMainFragment.visibility = View.GONE
     }
 
-    fun toCityChangeScreen() {
+    private fun toCityChangeScreen() {
         findNavController().navigate(R.id.action_rootFragment_to_cityChooseFragment)
     }
 
-    fun drawRecyclerView() {
+    private fun drawRecyclerView() {
         recyclerview = binding.recyclerviewFiveDayWeather
         adapter = RootFragmentAdapter()
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+    }
+
+    private fun permissionListener() {
+        pLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                Toast.makeText(activity, "Permission is {$it}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun checkPermission(){
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)){
+            permissionListener()
+            pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
     }
 }
