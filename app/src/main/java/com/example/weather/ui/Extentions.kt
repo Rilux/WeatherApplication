@@ -5,9 +5,11 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 
 
 fun Fragment.isPermissionGranted(p: String): Boolean {
@@ -15,6 +17,11 @@ fun Fragment.isPermissionGranted(p: String): Boolean {
         activity as AppCompatActivity, p
     ) == PackageManager.PERMISSION_GRANTED
 }
+
+fun Fragment.showToast(s: String, len: Int){
+    Toast.makeText(context, s, len).show()
+}
+
 fun checkForInternet(context: Context): Boolean {
 
     // register activity with the connectivity manager service

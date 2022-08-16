@@ -18,6 +18,7 @@ import com.example.weather.R
 import com.example.weather.data.model.City
 import com.example.weather.databinding.FragmentCityChooseBinding
 import com.example.weather.ui.checkForInternet
+import com.example.weather.ui.showToast
 import kotlinx.coroutines.launch
 
 
@@ -88,11 +89,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
         if (context?.let { checkForInternet(it) } == true){
             cityChooseFragmentViewModel.cityTextChanged(s)
         } else{
-            Toast.makeText(
-                activity,
-                "Oops, something went wrong, please, check your Internet connection and try again",
-                Toast.LENGTH_LONG
-            ).show()
+            showToast("Oops, something went wrong, please, check your Internet connection and try again", 1)
         }
 
     }

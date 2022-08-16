@@ -20,8 +20,8 @@ import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursData
 import com.example.weather.databinding.FragmentRootBinding
 import com.example.weather.ui.checkForInternet
 import com.example.weather.ui.cityChoose.CityChooseFragment
-
 import com.example.weather.ui.isPermissionGranted
+import com.example.weather.ui.showToast
 
 
 class RootFragment : Fragment(R.layout.fragment_root) {
@@ -39,7 +39,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRootBinding.bind(view)
-
         drawRecyclerView()
         checkPermission()
 
@@ -85,11 +84,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             binding.currentCityName.text = data.cityName
         }
         else{
-            Toast.makeText(
-                activity,
-                "Oops, something went wrong, please, check your Internet connection and try again",
-                Toast.LENGTH_LONG
-            ).show()
+            showToast("Oops, something went wrong, please, check your Internet connection and try again", 1)
         }
     }
 
@@ -117,7 +112,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     private fun permissionListener() {
         pLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             if (it) {
-                Toast.makeText(activity, "Permission is {$it}", Toast.LENGTH_LONG).show()
+                showToast("Permission is granted", 1)
             }
         }
     }
