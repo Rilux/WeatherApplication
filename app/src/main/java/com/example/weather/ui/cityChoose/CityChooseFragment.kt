@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,9 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.data.model.City
 import com.example.weather.databinding.FragmentCityChooseBinding
+import com.example.weather.ui.checkForInternet
 import kotlinx.coroutines.launch
-
-
 
 
 class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
@@ -85,7 +85,16 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
     }
 
     fun cityTextChanged(s: CharSequence) {
-        cityChooseFragmentViewModel.cityTextChanged(s)
+        if (context?.let { checkForInternet(it) } == true){
+            cityChooseFragmentViewModel.cityTextChanged(s)
+        } else{
+            Toast.makeText(
+                activity,
+                "Oops, something went wrong, please, check your Internet connection and try again",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
     }
 
     companion object {

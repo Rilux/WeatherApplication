@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.data.BasicApiLoginData
-import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
 import com.example.weather.data.model.City
 import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import com.example.weather.databinding.FragmentRootBinding
+import com.example.weather.ui.checkForInternet
 import com.example.weather.ui.cityChoose.CityChooseFragment
+
 import com.example.weather.ui.isPermissionGranted
 
 
@@ -48,6 +49,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             adapter.setList(it)
         })
 
+        refreshData(BasicApiLoginData())
 
         binding.floatingRefreshButton.setOnClickListener {
             refreshData(dataForWeather)
@@ -78,9 +80,17 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     }
 
     private fun refreshData(data: BasicApiLoginData) {
-        rootViewModel.cityChanged(data.cityApiKey)
-        binding.currentCityName.text = data.cityName
-
+        if (context?.let { checkForInternet(it) } == true){
+            rootViewModel.cityChanged(data.cityApiKey)
+            binding.currentCityName.text = data.cityName
+        }
+        else{
+            Toast.makeText(
+                activity,
+                "Oops, something went wrong, please, check your Internet connection and try again",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun toScreen(data: TwelveHoursDataResponse) {
@@ -112,8 +122,8 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         }
     }
 
-    private fun checkPermission(){
-        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)){
+    private fun checkPermission() {
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
             permissionListener()
             pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }

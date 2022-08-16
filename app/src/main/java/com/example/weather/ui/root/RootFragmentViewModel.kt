@@ -1,14 +1,11 @@
 package com.example.weather.ui.root
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.data.BasicApiLoginData
 import com.example.weather.data.repository.Repository
-import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
 import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import kotlinx.coroutines.launch
 
@@ -26,10 +23,6 @@ class RootFragmentViewModel(application: Application) : AndroidViewModel(applica
             val temp = repo.getTwelveHoursWeatherData(cityName.cityApiKey)
             _apiData.value = temp.body()
         }
-    }
-
-    init {
-        callToApi()
     }
 
     fun cityChanged(cityTemp: String) {
