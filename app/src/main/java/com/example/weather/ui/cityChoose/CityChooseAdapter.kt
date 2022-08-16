@@ -3,6 +3,8 @@ package com.example.weather.ui.cityChoose
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.model.City
 import com.example.weather.databinding.ItemCityBinding
@@ -15,7 +17,7 @@ interface CityChooseListener {
 class CityChooseAdapter(
     private val actionListener: CityChooseListener
 ) :
-    RecyclerView.Adapter<CityChooseAdapter.CityChooseViewHolder>(), View.OnClickListener {
+    ListAdapter<City, CityChooseAdapter.CityChooseViewHolder>(Comparator()), View.OnClickListener {
     var listCityChoose = emptyList<City>()
 
     class CityChooseViewHolder(binding: ItemCityBinding) : RecyclerView.ViewHolder(binding.root)
@@ -49,5 +51,16 @@ class CityChooseAdapter(
     fun setList(list: List<City>) {
         listCityChoose = list
         notifyDataSetChanged()
+    }
+
+    class Comparator : DiffUtil.ItemCallback<City>() {
+        override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
+            return oldItem.cityKey == newItem.cityKey
+        }
+
+        override fun areContentsTheSame(oldItem: City, newItem: City): Boolean {
+            return oldItem.cityKey == newItem.cityKey
+        }
+
     }
 }
