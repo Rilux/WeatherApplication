@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,9 +23,11 @@ import com.example.weather.databinding.FragmentRootBinding
 import com.example.weather.ui.checkForInternet
 import com.example.weather.ui.cityChoose.CityChooseFragment
 import com.example.weather.ui.isPermissionGranted
+import com.example.weather.ui.main.MainViewPagerAdapter
 import com.example.weather.ui.showToast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.internal.wait
