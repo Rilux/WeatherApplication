@@ -11,7 +11,7 @@ import com.example.weather.databinding.ItemCityBinding
 import kotlinx.android.synthetic.main.item_city.view.*
 
 interface CityChooseListener {
-    fun onCityCliocked(city: City)
+    fun onCityClicked(city: City)
 }
 
 class CityChooseAdapter(
@@ -25,7 +25,7 @@ class CityChooseAdapter(
 
     override fun onClick(v: View) {
         val city = v.tag as City
-        actionListener.onCityCliocked(city)
+        actionListener.onCityClicked(city)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityChooseViewHolder {

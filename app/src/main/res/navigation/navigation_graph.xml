@@ -27,5 +27,5 @@
         android:id="@+id/mainFragment"
         android:name="com.example.weather.ui.main.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" /><action android:id="@+id/action_global_rootFragment" app:destination="@id/rootFragment"/>
 </navigation>

@@ -14,11 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
 import com.example.weather.data.model.City
 import com.example.weather.databinding.FragmentCityChooseBinding
 import com.example.weather.ui.checkForInternet
+import com.example.weather.ui.root.RootFragment
 import com.example.weather.ui.showToast
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.coroutines.launch
 
 
@@ -44,11 +47,12 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
         recyclerview.layoutManager = layoutManager
 
+        val viewpager = activity?.findViewById<ViewPager2>(R.id.view_pagerMain)
         adapter = CityChooseAdapter(object : CityChooseListener {
-            override fun onCityCliocked(city: City) {
+            override fun onCityClicked(city: City) {
                 parentFragmentManager.setFragmentResult(CITY_CODE, bundleOf(CITY_DATA to city))
                 Log.d("MyLog", "City: {$city}")
-                findNavController().popBackStack()
+                viewpager?.currentItem = 0
             }
         })
 
