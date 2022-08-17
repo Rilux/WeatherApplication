@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
-import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponseItem
+import com.example.weather.data.model.twelveHoursForecastDataResponse.ForecastItem
+import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import com.example.weather.databinding.ItemFiveDayWeatherDataBinding
 import kotlinx.android.synthetic.main.item_five_day_weather_data.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RootFragmentAdapter() :
-    ListAdapter<TwelveHoursDataResponseItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
+    ListAdapter<ForecastItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
 
-    var listWeather = emptyList<TwelveHoursDataResponseItem>()
+    private var listWeather = emptyList<ForecastItem>()
 
     class RootFragmentViewHolder(binding: ItemFiveDayWeatherDataBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -30,34 +30,34 @@ class RootFragmentAdapter() :
     override fun onBindViewHolder(holder: RootFragmentViewHolder, position: Int) {
         val weather = listWeather[position]
 
-        val parsedDate = LocalDateTime.parse(weather.dateTime, DateTimeFormatter.ISO_DATE_TIME)
-        val formattedDate = parsedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy \n HH:mm"))
+        //val parsedDate = LocalDateTime.parse(weather.dtTxt, DateTimeFormatter.ISO_DATE_TIME)
+        //val formattedDate = parsedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy \n HH:mm"))
 
-        holder.itemView.dataTextView.text = formattedDate
+        holder.itemView.dataTextView.text = weather.dtTxt
         holder.itemView.temperatureTextView.text =
-            Math.round(weather.temperature.value).toString() + "°C"
+            Math.round(weather.main.temp).toString() + "°C"
     }
 
     override fun getItemCount(): Int {
         return listWeather.size
     }
 
-    fun setList(list: TwelveHoursDataResponse) {
-        listWeather = list
+    fun setList(list: TwelveHoursForecastDataResponse) {
+        listWeather = list.list
         notifyDataSetChanged()
     }
 
-    class Comparator : DiffUtil.ItemCallback<TwelveHoursDataResponseItem>() {
+    class Comparator : DiffUtil.ItemCallback<ForecastItem>() {
         override fun areItemsTheSame(
-            oldItem: TwelveHoursDataResponseItem,
-            newItem: TwelveHoursDataResponseItem
+            oldItem: ForecastItem,
+            newItem: ForecastItem
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: TwelveHoursDataResponseItem,
-            newItem: TwelveHoursDataResponseItem
+            oldItem: ForecastItem,
+            newItem: ForecastItem
         ): Boolean {
             return oldItem == newItem
         }

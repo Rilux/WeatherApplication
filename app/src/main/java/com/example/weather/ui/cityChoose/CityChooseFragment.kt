@@ -57,7 +57,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
         cityChooseFragmentViewModel.apiData.observe(viewLifecycleOwner, Observer {
             val listCity = mutableListOf<City>()
             it.forEach {
-                listCity.add(City(it.localizedName, it.country.localizedName, it.key))
+                listCity.add(City(it.localizedName, it.country.localizedName, it.key, it.country.iD))
             }
             adapter.setList(listCity)
         })

@@ -1,4 +1,4 @@
-package com.example.weather.data.local.oneDayResponse
+package com.example.weather.data.model.twelveHoursForecastDataResponse
 
 
 import com.google.gson.annotations.SerializedName
@@ -12,9 +12,11 @@ data class Main(
     @SerializedName("temp_max")
     val tempMax: Double,
     val pressure: Int,
-    val humidity: Int,
     @SerializedName("sea_level")
     val seaLevel: Int,
     @SerializedName("grnd_level")
-    val grndLevel: Int
+    val grndLevel: Int,
+    val humidity: Int,
+    @SerializedName("temp_kf")
+    val tempKf: Double
 )

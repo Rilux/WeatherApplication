@@ -8,4 +8,5 @@ data class City(
     val city: String,
     val country: String,
     val cityKey: String,
+    val iso2: String
 ) : Parcelable

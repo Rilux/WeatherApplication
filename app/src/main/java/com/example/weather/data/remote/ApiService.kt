@@ -1,8 +1,7 @@
 package com.example.weather.data.remote
 
-import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
 import com.example.weather.data.model.citiesListAutocompleteResponse.CitiesListAutocomplete
-import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
+import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -20,23 +19,25 @@ public interface ApiService {
         @Query("q") cityQuote: String
     ): Response<CitiesListAutocomplete>
 
-    //Call to get 12 hour forecast
-    //https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/323903?apikey=xY7J0GGAQmyDlbYz9aTAncGFZj1fxGOD&metric=true
-    @GET("forecasts/v1/hourly/12hour/{cityApi}")
-    suspend fun getTwelveHoursWeatherData(
-        @Path("cityApi") cityApi: String,
-        @Query("apikey") apiKey: String,
-        @Query("metric") metric: Boolean
-    ): Response<TwelveHoursDataResponse>
-
+    //Call to get five days forecast with 3 hours range between forecasts
+    //https://api.openweathermap.org/data/2.5/forecast?lat=57&lon=-2.15&cnt=12&appid=4d88423d5140e8d43436999c139cbf8d&units=metric
+    @GET("forecast")
+    suspend fun getFiveDaysForecastByCoordinates(
+        @Query("lat") latitude: String,
+        @Query("lon") longitude: String,
+        @Query("cnt") numberOfEvents: String,
+        @Query("appid") apiKey: String,
+        @Query("units") metric: String
+    ): Response<TwelveHoursForecastDataResponse>
 
     //Call to get weather data for one day by city name and specifying units metric/imperial
-    //api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}
-    @GET("weather")
-    suspend fun getOneDayWeather(
-        @Query("q") cityNameOneDayRetrofit: String,
-        @Query("appid") apiOneDayRetrofit: String,
-        @Query("units") unitsOneDayRetrofit: String
-    ): Response<OneDayWeatherDataResponse>
+    //https://api.openweathermap.org/data/2.5/forecast?q=Kharkiv,UA&cnt=3&appid=4d88423d5140e8d43436999c139cbf8d&units=metric
+    @GET("forecast")
+    suspend fun getFiveDaysForecastByCityName(
+        @Query("q") cityName: String,
+        @Query("cnt") numberOfEvents: String,
+        @Query("appid") apiKey: String,
+        @Query("units") metric: String
+    ): Response<TwelveHoursForecastDataResponse>
 
 }

@@ -1,10 +1,9 @@
 package com.example.weather.data.repository
 
-import com.example.weather.data.BasicApiLoginData
 import com.example.weather.data.remote.RetrofitInstance
-import com.example.weather.data.local.oneDayResponse.OneDayWeatherDataResponse
+import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.data.model.citiesListAutocompleteResponse.CitiesListAutocomplete
-import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
+import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import retrofit2.Response
 
 class Repository {
@@ -20,17 +19,22 @@ class Repository {
         )
     }
 
-    //Get one day weather forecast
-    suspend fun getOneDayWeather(city: String, units: String): Response<OneDayWeatherDataResponse> {
-        return RetrofitInstance.weatherApi.getOneDayWeather(city, BasicApiLoginData.apiCode, units)
-    }
-
-    suspend fun getTwelveHoursWeatherData(cityApi: String): Response<TwelveHoursDataResponse> {
-        return RetrofitInstance.accWweatherApi.getTwelveHoursWeatherData(
-            cityApi,
-            "xY7J0GGAQmyDlbYz9aTAncGFZj1fxGOD",
-            true
+    suspend fun getFiveDaysForecastByCoordinates(data: DataForCoordinatesSearch): Response<TwelveHoursForecastDataResponse> {
+        return RetrofitInstance.weatherApi.getFiveDaysForecastByCoordinates(
+            data.latitude,
+            data.longitude,
+            data.count,
+            DataForCoordinatesSearch.apiCode,
+            data.units
         )
     }
 
+    suspend fun getFiveDaysForecastByCityName(data: DataForCoordinatesSearch): Response<TwelveHoursForecastDataResponse> {
+        return RetrofitInstance.weatherApi.getFiveDaysForecastByCityName(
+            data.cityName + ',' + data.country,
+            data.count,
+            DataForCoordinatesSearch.apiCode,
+            data.units
+        )
+    }
 }

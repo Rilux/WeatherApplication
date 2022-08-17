@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
 
 fun Fragment.isPermissionGranted(p: String): Boolean {
@@ -17,7 +16,7 @@ fun Fragment.isPermissionGranted(p: String): Boolean {
         activity as AppCompatActivity, p
     ) == PackageManager.PERMISSION_GRANTED
 }
-
+// s = text, len - length of the toast: 1 - Long toast 0 - short toast
 fun Fragment.showToast(s: String, len: Int){
     Toast.makeText(context, s, len).show()
 }

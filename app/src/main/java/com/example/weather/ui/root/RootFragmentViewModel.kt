@@ -4,29 +4,36 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.weather.data.BasicApiLoginData
+import com.example.weather.data.model.DataForCoordinatesSearch
+import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import com.example.weather.data.repository.Repository
-import com.example.weather.data.model.twelveHoursWeatherResponse.TwelveHoursDataResponse
 import kotlinx.coroutines.launch
 
 class RootFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repo = Repository()
 
-    private var _apiData = MutableLiveData<TwelveHoursDataResponse>()
-    val apiData: MutableLiveData<TwelveHoursDataResponse> = _apiData
+    private var _apiData = MutableLiveData<TwelveHoursForecastDataResponse>()
+    val apiData: MutableLiveData<TwelveHoursForecastDataResponse> = _apiData
 
-    var cityName: BasicApiLoginData = BasicApiLoginData()
+    var cityData: DataForCoordinatesSearch = DataForCoordinatesSearch()
 
-    private fun callToApi() {
+    private fun callToApi(case: Boolean) {
         viewModelScope.launch {
-            val temp = repo.getTwelveHoursWeatherData(cityName.cityApiKey)
-            _apiData.value = temp.body()
+            when (case) {
+                true -> {
+                    _apiData.value = repo.getFiveDaysForecastByCityName(cityData).body()
+                }
+                false -> {
+                    _apiData.value = repo.getFiveDaysForecastByCoordinates(cityData).body()
+                }
+            }
+
         }
     }
 
-    fun cityChanged(cityTemp: String) {
-        cityName.cityApiKey = cityTemp
-        callToApi()
+    fun cityChanged(data: DataForCoordinatesSearch, case: Boolean) {
+        cityData = data
+        callToApi(case)
     }
 }
