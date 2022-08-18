@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
 import com.example.weather.data.model.City
+import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.databinding.FragmentCityChooseBinding
+import com.example.weather.ui.SharedViewModel
 import com.example.weather.ui.checkForInternet
 import com.example.weather.ui.root.RootFragment
 import com.example.weather.ui.showToast
@@ -32,6 +35,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
     private lateinit var adapter: CityChooseAdapter
     private lateinit var recyclerview: RecyclerView
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     val layoutManager = LinearLayoutManager(context)
 
@@ -50,7 +54,14 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
         val viewpager = activity?.findViewById<ViewPager2>(R.id.view_pagerMain)
         adapter = CityChooseAdapter(object : CityChooseListener {
             override fun onCityClicked(city: City) {
-                parentFragmentManager.setFragmentResult(CITY_CODE, bundleOf(CITY_DATA to city))
+                sharedViewModel.setCityData(
+                    DataForCoordinatesSearch().copy(
+                        cityName = city.city,
+                        country = city.iso2,
+                        cityApiKey = city.cityKey
+                    )
+                )
+
                 Log.d("MyLog", "City: {$city}")
                 viewpager?.currentItem = 0
             }
@@ -61,10 +72,18 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
         cityChooseFragmentViewModel.apiData.observe(viewLifecycleOwner, Observer {
             val listCity = mutableListOf<City>()
             it.forEach {
-                listCity.add(City(it.localizedName, it.country.localizedName, it.key, it.country.iD))
+                listCity.add(
+                    City(
+                        it.localizedName,
+                        it.country.localizedName,
+                        it.key,
+                        it.country.iD
+                    )
+                )
             }
             adapter.setList(listCity)
         })
+
 
         binding.defaultEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -80,7 +99,7 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
                 before: Int, count: Int
             ) {
                 lifecycleScope.launch() {
-                    if (s.isNotEmpty()){
+                    if (s.isNotEmpty()) {
                         cityTextChanged(s)
                     }
                 }
@@ -90,10 +109,13 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
     }
 
     fun cityTextChanged(s: CharSequence) {
-        if (context?.let { checkForInternet(it) } == true){
+        if (context?.let { checkForInternet(it) } == true) {
             cityChooseFragmentViewModel.cityTextChanged(s)
-        } else{
-            showToast("Oops, something went wrong, please, check your Internet connection and try again", 1)
+        } else {
+            showToast(
+                "Oops, something went wrong, please, check your Internet connection and try again",
+                1
+            )
         }
 
     }

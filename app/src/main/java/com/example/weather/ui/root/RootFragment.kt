@@ -9,42 +9,42 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
-import com.example.weather.data.model.City
 import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import com.example.weather.databinding.FragmentRootBinding
+import com.example.weather.ui.SharedViewModel
 import com.example.weather.ui.checkForInternet
-import com.example.weather.ui.cityChoose.CityChooseFragment
 import com.example.weather.ui.isPermissionGranted
-import com.example.weather.ui.main.MainViewPagerAdapter
 import com.example.weather.ui.showToast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import okhttp3.internal.wait
 
 
 class RootFragment : Fragment(R.layout.fragment_root) {
 
 
     private lateinit var binding: FragmentRootBinding
+
     private lateinit var rootViewModel: RootFragmentViewModel
-    private var dataForWeather = DataForCoordinatesSearch()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private lateinit var adapter: RootFragmentAdapter
-    private lateinit var recyclerview: RecyclerView
 
+    private lateinit var recyclerview: RecyclerView
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var dataForWeather = DataForCoordinatesSearch()
+
+    val viewpager = activity?.findViewById<ViewPager2>(R.id.view_pagerMain)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
         getForecastByCoordinates()
 
-
         rootViewModel.apiData.observe(viewLifecycleOwner, Observer {
             toScreen(it)
             setDataForSearch(
@@ -83,30 +82,22 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         }
 
         binding.currentCityName.setOnClickListener {
-            toCityChangeScreen()
+            viewpager?.currentItem = 2
         }
 
-        parentFragmentManager.setFragmentResultListener(
-            CityChooseFragment.CITY_CODE,
-            viewLifecycleOwner
-        ) { _, data ->
-            val city: City? = data.getParcelable(CityChooseFragment.CITY_DATA)
-            Log.d("MyLog", "City1: {${city}}")
-            if (city != null) {
-                setDataForSearch(
-                    dataForWeather.copy(
-                        cityName = city.city,
-                        units = "metric",
-                        cityApiKey = city.cityKey,
-                        country = city.iso2
-                    )
+        sharedViewModel.cityData.observe(viewLifecycleOwner) { city ->
+            setDataForSearch(
+                dataForWeather.copy(
+                    cityName = city.cityName,
+                    units = "metric",
+                    cityApiKey = city.cityApiKey,
+                    country = city.country
                 )
-                refreshData(
-                    dataForWeather, true
-                )
-            }
+            )
+            refreshData(
+                dataForWeather, true
+            )
         }
-
     }
 
     //True - call to get forecast data by city code(CityApi)
@@ -140,9 +131,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
         recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
 
-    private fun toCityChangeScreen() {
-        findNavController().navigate(R.id.action_rootFragment_to_cityChooseFragment)
-    }
 
     private fun permissionListener() {
         pLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
