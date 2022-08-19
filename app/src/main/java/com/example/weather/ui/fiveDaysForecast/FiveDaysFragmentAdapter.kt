@@ -29,7 +29,7 @@ class FiveDaysFragmentAdapter() :
     override fun onBindViewHolder(holder: FiveDaysFragmentViewHolder, position: Int) {
         val weather = listWeather[position]
 
-        holder.itemView.dataTextView.text = weather.dateTxt
+        holder.itemView.textViewTime.text = weather.dateTxt
         holder.itemView.textViewMaxTemp.text = Math.round(weather.tempMax).toString() + "°C"
         holder.itemView.textViewMinTemp.text = Math.round(weather.tempMin).toString() + "°C"
     }

@@ -9,6 +9,8 @@ import com.example.weather.data.model.twelveHoursForecastDataResponse.ForecastIt
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import com.example.weather.databinding.ItemTwelveHoursForecastDataBinding
 import kotlinx.android.synthetic.main.item_twelve_hours_forecast_data.view.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class RootFragmentAdapter() :
     ListAdapter<ForecastItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
@@ -28,10 +30,11 @@ class RootFragmentAdapter() :
     override fun onBindViewHolder(holder: RootFragmentViewHolder, position: Int) {
         val weather = listWeather[position]
 
-        //val parsedDate = LocalDateTime.parse(weather.dtTxt, DateTimeFormatter.ISO_DATE_TIME)
-        //val formattedDate = parsedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy \n HH:mm"))
+        val pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val localDateTime = LocalDateTime.parse(weather.dtTxt, pattern)
 
-        holder.itemView.dataTextView.text = weather.dtTxt
+        holder.itemView.dataTextView.text =
+            localDateTime.toLocalDate().toString() + "\n" + localDateTime.toLocalTime().toString()
         holder.itemView.temperatureTextView.text =
             Math.round(weather.main.temp).toString() + "°C"
     }
