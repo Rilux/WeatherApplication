@@ -7,22 +7,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.model.twelveHoursForecastDataResponse.ForecastItem
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
-import com.example.weather.databinding.ItemFiveDayWeatherDataBinding
-import kotlinx.android.synthetic.main.item_five_day_weather_data.view.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.example.weather.databinding.ItemTwelveHoursForecastDataBinding
+import kotlinx.android.synthetic.main.item_twelve_hours_forecast_data.view.*
 
 class RootFragmentAdapter() :
     ListAdapter<ForecastItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
 
     private var listWeather = emptyList<ForecastItem>()
 
-    class RootFragmentViewHolder(binding: ItemFiveDayWeatherDataBinding) :
+    class RootFragmentViewHolder(binding: ItemTwelveHoursForecastDataBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RootFragmentViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemFiveDayWeatherDataBinding.inflate(inflater, parent, false)
+        val binding = ItemTwelveHoursForecastDataBinding.inflate(inflater, parent, false)
         return RootFragmentViewHolder(binding)
 
     }

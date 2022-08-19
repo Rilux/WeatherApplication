@@ -6,10 +6,12 @@
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/fragment_blank.xml" value="0.29257246376811596" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/fragment_city_choose.xml" value="0.29257246376811596" />
+        <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/fragment_five_days.xml" value="0.3625" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/fragment_main.xml" value="0.3070652173913043" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/fragment_root.xml" value="0.33" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/item_city.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/item_five_day_weather_data.xml" value="0.5" />
+        <entry key="..\:/Users/rostp/AndroidStudioProjects/ClassSched/Weather/app/src/main/res/layout/item_five_days_forecast.xml" value="0.3625" />
       </map>
     </option>
   </component>

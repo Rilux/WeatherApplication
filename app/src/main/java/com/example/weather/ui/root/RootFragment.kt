@@ -74,7 +74,9 @@ class RootFragment : Fragment(R.layout.fragment_root) {
                     latitude = it.city.coord.lat.toString()
                 )
             )
-            adapter.setList(it)
+            val temp = it.copy(list = it.list.take(12))
+            sharedViewModel.setForecastData(it)
+            adapter.setList(temp)
         })
 
         binding.floatingRefreshButton.setOnClickListener {

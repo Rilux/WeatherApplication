@@ -3,7 +3,7 @@ package com.example.weather.ui.main
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.weather.ui.BlankFragment
+import com.example.weather.ui.fiveDaysForecast.FiveDaysFragment
 import com.example.weather.ui.cityChoose.CityChooseFragment
 import com.example.weather.ui.root.RootFragment
 
@@ -16,7 +16,7 @@ class MainViewPagerAdapter(fragmentActivity: FragmentActivity) :
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> RootFragment()
-            1 -> BlankFragment()
+            1 -> FiveDaysFragment()
             else -> CityChooseFragment()
         }
     }

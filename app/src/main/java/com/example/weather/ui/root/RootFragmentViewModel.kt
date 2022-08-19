@@ -1,15 +1,14 @@
 package com.example.weather.ui.root
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import com.example.weather.data.repository.Repository
 import kotlinx.coroutines.launch
 
-class RootFragmentViewModel(application: Application) : AndroidViewModel(application) {
+class RootFragmentViewModel : ViewModel(){
 
     private val repo = Repository()
 
