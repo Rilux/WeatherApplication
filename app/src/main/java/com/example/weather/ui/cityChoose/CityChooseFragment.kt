@@ -5,14 +5,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -22,16 +20,15 @@ import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.databinding.FragmentCityChooseBinding
 import com.example.weather.ui.SharedViewModel
 import com.example.weather.ui.checkForInternet
-import com.example.weather.ui.root.RootFragment
 import com.example.weather.ui.showToast
-import kotlinx.android.synthetic.main.fragment_main.view.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
     private lateinit var binding: FragmentCityChooseBinding
-    private lateinit var cityChooseFragmentViewModel: CityChooseFragmentViewModel
+    private val cityChooseFragmentViewModel: CityChooseFragmentViewModel by viewModels()
 
     private lateinit var adapter: CityChooseAdapter
     private lateinit var recyclerview: RecyclerView
@@ -43,8 +40,6 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCityChooseBinding.bind(view)
 
-        cityChooseFragmentViewModel =
-            ViewModelProvider(this)[CityChooseFragmentViewModel::class.java]
 
         recyclerview = binding.recyclerview1
 

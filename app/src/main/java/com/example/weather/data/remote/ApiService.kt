@@ -4,11 +4,10 @@ import com.example.weather.data.model.citiesListAutocompleteResponse.CitiesListA
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 
-public interface ApiService {
+interface ApiService {
 
 
     //Call to get updatable list of the cities by text entered in the edit text field on CityChooseFragment

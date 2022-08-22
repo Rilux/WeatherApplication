@@ -1,9 +1,8 @@
-package com.example.weather.ui.root
+package com.example.weather.ui.oneDay
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
 import com.example.weather.data.model.DataForCoordinatesSearch
 import com.example.weather.data.model.twelveHoursForecastDataResponse.TwelveHoursForecastDataResponse
-import com.example.weather.databinding.FragmentRootBinding
+import com.example.weather.databinding.FragmentOneDayBinding
 import com.example.weather.ui.SharedViewModel
 import com.example.weather.ui.checkForInternet
 import com.example.weather.ui.isPermissionGranted
@@ -31,23 +30,24 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
+@AndroidEntryPoint
+class OneDayFragment : Fragment(R.layout.fragment_one_day) {
 
-class RootFragment : Fragment(R.layout.fragment_root) {
 
+    private lateinit var binding: FragmentOneDayBinding
 
-    private lateinit var binding: FragmentRootBinding
-
-    private lateinit var rootViewModel: RootFragmentViewModel
+    private val rootViewModel: OneDayFragmentViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private lateinit var adapter: RootFragmentAdapter
+    private lateinit var adapter: OneDayFragmentAdapter
 
     private lateinit var recyclerview: RecyclerView
     private lateinit var pLauncher: ActivityResultLauncher<String>
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var dataForWeather = DataForCoordinatesSearch()
 
     val viewpager = activity?.findViewById<ViewPager2>(R.id.view_pagerMain)
@@ -55,9 +55,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentRootBinding.bind(view)
-
-        rootViewModel = ViewModelProvider(this)[RootFragmentViewModel::class.java]
+        binding = FragmentOneDayBinding.bind(view)
 
         drawRecyclerView()
         checkPermission()
@@ -65,7 +63,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             launch { context?.let { requestCurrentLocation(it)
             } }
         }
-
 
         rootViewModel.apiData.observe(viewLifecycleOwner, Observer {
             toScreen(it)
@@ -131,7 +128,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
     private fun drawRecyclerView() {
         recyclerview = binding.recyclerviewFiveDayWeather
-        adapter = RootFragmentAdapter()
+        adapter = OneDayFragmentAdapter()
         recyclerview.adapter = adapter
         recyclerview.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
     }
@@ -153,12 +150,11 @@ class RootFragment : Fragment(R.layout.fragment_root) {
     }
 
     @SuppressLint("MissingPermission")
-    private fun requestCurrentLocation(context: Context): DoubleArray? {
+    private fun requestCurrentLocation(context: Context) {
         val fusedLocationClient: FusedLocationProviderClient by lazy {
             LocationServices.getFusedLocationProviderClient(context)
         }
         var cancellationTokenSource = CancellationTokenSource()
-        val gps = DoubleArray(2)
 
         // Check Fine permission
         if (isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -172,8 +168,6 @@ class RootFragment : Fragment(R.layout.fragment_root) {
             currentLocationTask.addOnCompleteListener { task: Task<Location> ->
                 val result = if (task.isSuccessful) {
                     val result: Location = task.result
-                    gps[0] = result.latitude
-                    gps[1] = result.longitude
                     setDataForSearch(
                         dataForWeather.copy(
                             latitude = result.latitude.toString(),
@@ -189,10 +183,7 @@ class RootFragment : Fragment(R.layout.fragment_root) {
 
                 println("getCurrentLocation() result: $result")
             }
-        } else {
-            // Request fine location permission.
         }
-        return gps
     }
 
     private fun setDataForSearch(data: DataForCoordinatesSearch) {

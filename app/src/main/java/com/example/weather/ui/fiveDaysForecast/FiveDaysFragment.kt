@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.R
 import com.example.weather.databinding.FragmentFiveDaysBinding
 import com.example.weather.ui.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FiveDaysFragment : Fragment(R.layout.fragment_five_days) {
 
     lateinit var binding: FragmentFiveDaysBinding

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.weather.ui.fiveDaysForecast.FiveDaysFragment
 import com.example.weather.ui.cityChoose.CityChooseFragment
-import com.example.weather.ui.root.RootFragment
+import com.example.weather.ui.oneDay.OneDayFragment
 
 class MainViewPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
@@ -15,7 +15,7 @@ class MainViewPagerAdapter(fragmentActivity: FragmentActivity) :
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> RootFragment()
+            0 -> OneDayFragment()
             1 -> FiveDaysFragment()
             else -> CityChooseFragment()
         }

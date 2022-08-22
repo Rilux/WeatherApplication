@@ -7,7 +7,10 @@ import androidx.fragment.app.FragmentActivity
 import com.example.weather.R
 import com.example.weather.databinding.FragmentMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.internal.managers.FragmentComponentManager
 
+@AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private lateinit var binding: FragmentMainBinding
@@ -16,7 +19,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
 
-        binding.viewPagerMain.adapter = MainViewPagerAdapter(context as FragmentActivity)
+        binding.viewPagerMain.adapter = MainViewPagerAdapter(FragmentComponentManager.findActivity(view.context) as FragmentActivity)
+
         TabLayoutMediator(binding.tabLayout, binding.viewPagerMain){
             tab, pos -> when(pos){
                 0 -> {

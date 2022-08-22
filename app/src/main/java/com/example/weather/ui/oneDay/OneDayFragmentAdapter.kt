@@ -1,4 +1,4 @@
-package com.example.weather.ui.root
+package com.example.weather.ui.oneDay
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.item_twelve_hours_forecast_data.view.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class RootFragmentAdapter() :
-    ListAdapter<ForecastItem, RootFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
+class OneDayFragmentAdapter() :
+    ListAdapter<ForecastItem, OneDayFragmentAdapter.RootFragmentViewHolder>(Comparator()) {
 
     private var listWeather = emptyList<ForecastItem>()
 

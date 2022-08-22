@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/rootFragment"
-        android:name="com.example.weather.ui.root.RootFragment"
+        android:name="com.example.weather.ui.oneDay.OneDayFragment"
         android:label="fragment_root"
-        tools:layout="@layout/fragment_root" >
+        tools:layout="@layout/fragment_one_day" >
         <action
             android:id="@+id/action_rootFragment_to_cityChooseFragment"
             app:destination="@id/cityChooseFragment" />
@@ -21,7 +21,7 @@
         tools:layout="@layout/fragment_city_choose" />
     <fragment
         android:id="@+id/blankFragment"
-        android:name="com.example.weather.ui.BlankFragment"
+        android:name="com.example.weather.ui.fiveDaysForecast.FiveDaysFragment"
         android:label="BlankFragment" />
     <fragment
         android:id="@+id/mainFragment"
