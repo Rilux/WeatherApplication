@@ -22,6 +22,7 @@ class FiveDaysFragmentViewModel : ViewModel() {
         data.list.forEach {
             if (LocalDateTime.parse(it.dtTxt, pattern).toLocalDate() != time) {
                 forecastTemp.dateTxt = time.toString()
+                forecastTemp.image = it.weather[0].icon
                 tempList.add(forecastTemp)
                 forecastTemp = DataForFiveDaysWeatherForecast()
                 time = LocalDateTime.parse(it.dtTxt, pattern).toLocalDate()
