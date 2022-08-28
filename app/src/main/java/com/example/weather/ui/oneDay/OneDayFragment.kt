@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OneDayFragment : Fragment(R.layout.fragment_one_day) {
@@ -47,7 +48,9 @@ class OneDayFragment : Fragment(R.layout.fragment_one_day) {
 
     private lateinit var recyclerview: RecyclerView
     private lateinit var pLauncher: ActivityResultLauncher<String>
-    private var dataForWeather = DataForCoordinatesSearch()
+
+    @Inject
+    lateinit var dataForWeather: DataForCoordinatesSearch
 
     val viewpager = activity?.findViewById<ViewPager2>(R.id.view_pagerMain)
 
@@ -83,7 +86,7 @@ class OneDayFragment : Fragment(R.layout.fragment_one_day) {
         }
 
         binding.currentCityName.setOnClickListener {
-            viewpager?.currentItem = 2
+            viewpager?.currentItem = 1
         }
 
         sharedViewModel.cityData.observe(viewLifecycleOwner) { city ->

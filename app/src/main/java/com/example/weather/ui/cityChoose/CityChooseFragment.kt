@@ -115,9 +115,5 @@ class CityChooseFragment : Fragment(R.layout.fragment_city_choose) {
 
     }
 
-    companion object {
-        const val CITY_CODE = "CODE_BACK_CITY"
-        const val CITY_DATA = "CITY_DATA"
-    }
 }
 

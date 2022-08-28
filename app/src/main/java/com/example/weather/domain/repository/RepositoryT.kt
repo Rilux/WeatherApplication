@@ -10,5 +10,4 @@ interface RepositoryT {
     suspend fun getCitiesListAutocomplete(city: String): Response<CitiesListAutocomplete>
     suspend fun getFiveDaysForecastByCoordinates(data: DataForCoordinatesSearch): Response<TwelveHoursForecastDataResponse>
     suspend fun getFiveDaysForecastByCityName(data: DataForCoordinatesSearch): Response<TwelveHoursForecastDataResponse>
-
 }

@@ -25,7 +25,6 @@ class OneDayFragmentAdapter() :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemTwelveHoursForecastDataBinding.inflate(inflater, parent, false)
         return RootFragmentViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: RootFragmentViewHolder, position: Int) {

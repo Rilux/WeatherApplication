@@ -1,5 +1,6 @@
 package com.example.weather.ui.oneDay
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,20 +14,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OneDayFragmentViewModel @Inject constructor(
-    private val repo: Lazy<RepositoryT>
-) : ViewModel(){
+    private val repo: Lazy<RepositoryT>,
+    private var cityData: DataForCoordinatesSearch
+) : ViewModel() {
 
     private var _apiData = MutableLiveData<TwelveHoursForecastDataResponse>()
-    val apiData: MutableLiveData<TwelveHoursForecastDataResponse> = _apiData
+    val apiData: LiveData<TwelveHoursForecastDataResponse> = _apiData
 
-    var cityData: DataForCoordinatesSearch = DataForCoordinatesSearch()
 
     private fun callToApi(case: Boolean) {
         viewModelScope.launch {
             when (case) {
                 true -> {
                     _apiData.value = repo.get().getFiveDaysForecastByCityName(cityData).body()
-                //repo.getFiveDaysForecastByCityName(cityData).body()
                 }
                 false -> {
                     _apiData.value = repo.get().getFiveDaysForecastByCoordinates(cityData).body()

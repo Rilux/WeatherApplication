@@ -1,5 +1,6 @@
 package com.example.weather.ui.cityChoose
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,7 +22,7 @@ class CityChooseFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _apiData = MutableLiveData<CitiesListAutocomplete>()
-    val apiData: MutableLiveData<CitiesListAutocomplete> = _apiData
+    val apiData: LiveData<CitiesListAutocomplete> = _apiData
 
 
     fun cityTextChanged(tempText: CharSequence) {

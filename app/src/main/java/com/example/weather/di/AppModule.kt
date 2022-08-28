@@ -4,6 +4,7 @@ import com.example.weather.BuildConfig
 import com.example.weather.data.remote.ApiService
 import com.example.weather.data.repository.RepositoryImpl
 import com.example.weather.domain.repository.RepositoryT
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,7 +40,7 @@ object AppModule {
     fun provideApiServiceAccu(client: OkHttpClient): ApiService {
         return Retrofit.Builder()
             .baseUrl("https://dataservice.accuweather.com/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .client(client)
             .build()
             .create(ApiService::class.java)

@@ -21,6 +21,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.viewPagerMain.adapter = MainViewPagerAdapter(FragmentComponentManager.findActivity(view.context) as FragmentActivity)
 
+        binding.viewPagerMain.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPagerMain){
             tab, pos -> when(pos){
                 0 -> {
